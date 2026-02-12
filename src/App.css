@@ -26,7 +26,6 @@
   font-weight: bold;
 }
 
-/* STATUS COLORS */
 .empty {
   background-color: #eee;
 }
@@ -40,17 +39,14 @@
   color: white;
 }
 
-/* Selected bin */
 .selected {
   border: 3px solid black;
 }
 
-/* Highlight from search */
 .highlight {
   box-shadow: 0 0 15px 5px yellow;
 }
 
-/* Panel */
 .panel {
   border: 1px solid #ccc;
   padding: 15px;

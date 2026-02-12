@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 
-const ROWS = 4;   // racks
-const COLS = 5;   // bins per rack
+const ROWS = 4;   
+const COLS = 5;   
 const BIN_CAPACITY = 100;
-
 
 function App() {
   const [bins, setBins] = useState(() => {
@@ -14,9 +13,7 @@ function App() {
     return JSON.parse(savedData);
   }
 
-  // If no saved data, create fresh grid
   const initialBins = [];
-
   for (let r = 0; r < ROWS; r++) {
     for (let c = 0; c < COLS; c++) {
       const rackLetter = String.fromCharCode(65 + r);
@@ -28,42 +25,30 @@ function App() {
       });
     }
   }
-
   return initialBins;
 });
 
-  const [selectedBin, setSelectedBin] = useState(null);
-  const [itemName, setItemName] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [search, setSearch] = useState("");
+const [selectedBin, setSelectedBin] = useState(null);
+const [itemName, setItemName] = useState("");
+const [quantity, setQuantity] = useState("");
+const [search, setSearch] = useState("");
 
-
-  // Save to localStorage whenever bins change
-  useEffect(() => {
-    localStorage.setItem("warehouseBins", JSON.stringify(bins));
+useEffect(() => {
+  localStorage.setItem("warehouseBins", JSON.stringify(bins));
   }, [bins]);
-
-  // Add item to selected bin
   
 const addItem = () => {
   if (!itemName || !quantity || selectedBin === null) return;
 
   const updatedBins = bins.map((bin) => {
     if (bin.id === selectedBin) {
-
-      // 🔹 Calculate current total quantity in this bin
       const totalQty = bin.items.reduce(
         (sum, item) => sum + item.qty,0);
         
-      
-
-      // 🔹 Check if adding this quantity exceeds capacity
       if (totalQty + Number(quantity) > BIN_CAPACITY) {
         alert("Bin capacity exceeded!");
-        return bin; // stop update
+        return bin;
       }
-
-      // 🔹 Check if item already exists
       const existingItemIndex = bin.items.findIndex(
         (item) =>
           item.name.toLowerCase() === itemName.toLowerCase()
@@ -72,10 +57,8 @@ const addItem = () => {
       let updatedItems = [...bin.items];
 
       if (existingItemIndex !== -1) {
-        // Update quantity
         updatedItems[existingItemIndex].qty += Number(quantity);
       } else {
-        // Add new item
         updatedItems.push({
           name: itemName,
           qty: Number(quantity),
@@ -96,16 +79,13 @@ const addItem = () => {
   setQuantity("");
 };
 
-
 const deleteItem = (itemIndex) => {
   const updatedBins = bins.map((bin) => {
     if (bin.id === selectedBin) {
-
-      const updatedItems = bin.items.filter(
-        (_, index) => index !== itemIndex
-      );
-
-      return {
+        const updatedItems = bin.items.filter(
+        (_, index) => index !== itemIndex);
+      
+        return {
         ...bin,
         items: updatedItems,
       };
@@ -116,9 +96,7 @@ const deleteItem = (itemIndex) => {
   setBins(updatedBins);
 };
 
-
-  // Remove all items from bin
-  const clearBin = () => {
+ const clearBin = () => {
     const updatedBins = bins.map((bin) => {
       if (bin.id === selectedBin) {
         return { ...bin, items: [] };
@@ -129,20 +107,15 @@ const deleteItem = (itemIndex) => {
     setBins(updatedBins);
   };
 
-  // Determine bin status
   const getStatus = (bin) => {
   const totalQty = bin.items.reduce(
-    (sum, item) => sum + item.qty,
-    0
-  );
-
+    (sum, item) => sum + item.qty,0);
+    
   if (totalQty === 0) return "empty";
   if (totalQty < BIN_CAPACITY) return "partial";
   return "full";
 };
 
-
-  // Check if bin contains searched item
   const containsSearchItem = (bin) => {
     return bin.items.some((item) =>
       item.name.toLowerCase().includes(search.toLowerCase())
@@ -153,7 +126,6 @@ const deleteItem = (itemIndex) => {
     <div className="container">
       <h1>Warehouse Bin & Rack Manager</h1>
 
-      {/* SEARCH */}
       <input
         type="text"
         placeholder="Search item..."
@@ -162,7 +134,6 @@ const deleteItem = (itemIndex) => {
         className="search"
       />
 
-      {/* GRID */}
       <div className="grid">
         {bins.map((bin) => (
           <div
@@ -177,7 +148,6 @@ const deleteItem = (itemIndex) => {
         ))}
       </div>
 
-      {/* INVENTORY PANEL */}
       {selectedBin && (
         <div className="panel">
           <h3>Selected Bin: {selectedBin}</h3>
@@ -201,20 +171,20 @@ const deleteItem = (itemIndex) => {
 
           <h4>Items:</h4>
           <ul>
-  {bins
-    .find((bin) => bin.id === selectedBin)
-    ?.items.map((item, index) => (
-      <li key={index} className="item-row">
-        {item.name} - {item.qty}
-        <button
-          className="delete-btn"
-          onClick={() => deleteItem(index)}
-        >
-          Delete
-        </button>
-      </li>
-    ))}
-</ul>
+              {bins
+                .find((bin) => bin.id === selectedBin)
+                ?.items.map((item, index) => (
+                  <li key={index} className="item-row">
+                    {item.name} - {item.qty}
+                    <button
+                      className="delete-btn"
+                      onClick={() => deleteItem(index)}
+                    >
+                      Delete
+                    </button>
+                  </li>
+                ))}
+            </ul>
 
         </div>
       )}
