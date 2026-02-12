@@ -1,0 +1,84 @@
+.container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.search {
+  padding: 8px;
+  margin-bottom: 20px;
+  width: 200px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 80px);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.bin {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+/* STATUS COLORS */
+.empty {
+  background-color: #eee;
+}
+
+.partial {
+  background-color: orange;
+}
+
+.full {
+  background-color: red;
+  color: white;
+}
+
+/* Selected bin */
+.selected {
+  border: 3px solid black;
+}
+
+/* Highlight from search */
+.highlight {
+  box-shadow: 0 0 15px 5px yellow;
+}
+
+/* Panel */
+.panel {
+  border: 1px solid #ccc;
+  padding: 15px;
+  width: 300px;
+}
+
+.panel input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+button {
+  margin-right: 5px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.delete-btn {
+  background-color: crimson;
+  color: white;
+  border: none;
+  padding: 3px 6px;
+  cursor: pointer;
+  border-radius: 4px;
+}
