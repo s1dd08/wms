@@ -135,17 +135,36 @@ const deleteItem = (itemIndex) => {
       />
 
       <div className="grid">
-        {bins.map((bin) => (
-          <div
-            key={bin.id}
-            className={`bin ${getStatus(bin)} 
-              ${selectedBin === bin.id ? "selected" : ""}
-              ${search && containsSearchItem(bin) ? "highlight" : ""}`}
-            onClick={() => setSelectedBin(bin.id)}
-          >
-            {bin.id}
-          </div>
-        ))}
+        {bins.map((bin) => {
+            const totalQty = bin.items.reduce(
+            (sum, item) => sum + item.qty, 0
+              );
+            const percentage = (totalQty / BIN_CAPACITY) * 100;
+
+  return (
+    <div
+      key={bin.id}
+      className={`bin ${getStatus(bin)} 
+        ${selectedBin === bin.id ? "selected" : ""}
+        ${search && containsSearchItem(bin) ? "highlight" : ""}`}
+      onClick={() => setSelectedBin(bin.id)}
+    >
+      <div className="bin-id">{bin.id}</div>
+
+      <div className="progress-bar">
+        <div
+              className={`progress-fill 
+                ${percentage <= 50 ? "low" : ""}
+                ${percentage > 50 && percentage <= 80 ? "medium" : ""}
+                ${percentage > 80 ? "high" : ""}`}
+              style={{ width: `${percentage}%` }}
+          ></div>
+      </div>
+
+      <div className="qty-text">{totalQty}/{BIN_CAPACITY}</div>
+    </div>
+  );
+})}
       </div>
 
       {selectedBin && (
