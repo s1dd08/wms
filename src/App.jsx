@@ -38,7 +38,7 @@ useEffect(() => {
   }, [bins]);
   
 const addItem = () => {
-  if (!itemName || !quantity || selectedBin === null) return;
+  if (!itemName.trim() || !quantity || selectedBin === null) return;
 
   const updatedBins = bins.map((bin) => {
     if (bin.id === selectedBin) {
@@ -148,7 +148,8 @@ const deleteItem = (itemIndex) => {
         ${selectedBin === bin.id ? "selected" : ""}
         ${search && containsSearchItem(bin) ? "highlight" : ""}`}
       onClick={() => setSelectedBin(bin.id)}
-    >
+      >
+    
       <div className="bin-id">{bin.id}</div>
 
       <div className="progress-bar">
